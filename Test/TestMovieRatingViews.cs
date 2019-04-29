@@ -7,12 +7,15 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Reflection;
 using System.IO;
+using OpenQA.Selenium.Support.UI;
+using System.Linq;
 
 namespace Test
 {
     public class TestMovieRatingViews : IDisposable
     {
         private ChromeDriver driver;
+        private const string BASE_URL = "http://localhost:59471";
 
 
         public TestMovieRatingViews()
@@ -20,14 +23,53 @@ namespace Test
             driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         }
 
-        [Fact]
-        public void TestCreate()
+        [Theory]
+        [InlineData("Star Wars", "5")]
+        [InlineData("Princess Bride", "4")]
+        public void TestCreateRating(string name, string rating)
         {
-            driver.Navigate
+            //add movies to data
+            driver.Url = BASE_URL + "movie/create";
+            driver.FindElementByName("movieName").SendKeys(name);
+
+            //navigate to add movie rating page and get elements
+            driver.Url = BASE_URL + "/movierating/create";
+            var submit = driver.FindElementByTagName("button");
+            Assert.Equal("submit", submit.GetAttribute("type"));
+            var movieSelectInput = new SelectElement(driver.FindElementByName("rating"));
+            var ratingSelectInput = new SelectElement(driver.FindElementByName("rating"));
+
+            //make selections for input and submit
+            movieSelectInput.SelectByText(name);
+            ratingSelectInput.SelectByText(rating);
+            submit.Click();
+
+            //verify it redirects with correct query string values
+            Assert.Equal(Uri.EscapeUriString(BASE_URL + $"/movierating/details?movieName={name}&rating={rating}"), driver.Url, true);
+
+            //navigate to movie rating list page and get table rows
+            driver.Url = BASE_URL + "/movierating";
+            var rows = driver.FindElementsByTagName("tr");
+            var headers = rows[0].FindElements(By.TagName("th"));
+
+            //Verify the first row has proper headers
+            Assert.Equal("Movie", headers[0].Text);
+            Assert.Equal("Rating", headers[1].Text);
+
+            //Verify a row contains expected movie/rating combo
+            Assert.Contains(rows, row => RowMatches(row, name, rating));
+        }
+
+        private bool RowMatches(IWebElement row, string name, string rating)
+        {
+            var tdElements = row.FindElements(By.TagName("tr"));
+
+            return tdElements[0].Text == name && tdElements[1].Text == rating;
         }
 
         public void Dispose()
         {
+            driver.Close();
             driver.Dispose();
         }
     }
