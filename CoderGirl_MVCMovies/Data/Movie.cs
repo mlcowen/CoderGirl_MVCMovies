@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CoderGirl_MVCMovies.Data
 {
-    public class Movie
+    public class MovieRating
     {
         public int Id { get; set; }
         public string Name { get; set; }

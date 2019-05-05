@@ -9,23 +9,23 @@ namespace CoderGirl_MVCMovies.Data
     {
         public double GetAverageRatingByMovieName(string movieName)
         {
-            return Movies.Where(m => m.Name == movieName).Average(m => m.Rating);
+            return MovieRatings.Where(m => m.Name == movieName).Average(m => m.Rating);
         }
 
         public List<int> GetIds()
         {
-            return Movies.Select(m => m.Id).ToList();
+            return MovieRatings.Select(m => m.Id).ToList();
         }
 
         public string GetMovieNameById(int id)
         {
-            return Movies[id - 1].Name;
+            return MovieRatings[id - 1].Name;
 
         }
 
         public int GetRatingById(int id)
         {
-            return Movies[id - 1].Rating;
+            return MovieRatings[id - 1].Rating;
 
         }
 
@@ -39,15 +39,15 @@ namespace CoderGirl_MVCMovies.Data
             {
                 return 0;
             }
-            Movie movie = new Movie();
+            MovieRating movie = new MovieRating();
             movie.Name = movieName;
             movie.Rating = rating;
-            movie.Id = Movies.Count + 1;
-            Movies.Add(movie);
+            movie.Id = MovieRatings.Count + 1;
+            MovieRatings.Add(movie);
             return movie.Id;
         }
 
-        public static List<Movie> Movies = new List<Movie>();
+        private static List<MovieRating> MovieRatings = new List<MovieRating>();
 
     }
 }

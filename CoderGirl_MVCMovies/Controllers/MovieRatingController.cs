@@ -10,7 +10,6 @@ namespace CoderGirl_MVCMovies.Controllers
     public class MovieRatingController : Controller
     {
         private IMovieRatingRepository repository = RepositoryFactory.GetMovieRatingRepository();
-        public static List<Movie> movies = new List<Movie>();
 
         //Create a string html template for a form
         // with method of post
@@ -41,7 +40,7 @@ namespace CoderGirl_MVCMovies.Controllers
 
             foreach (int id in repository.GetIds())
             {
-                Movie mov = new Movie();
+                MovieRating mov = new MovieRating();
                 mov.Id = movies.Count + 1;
                 mov.Name = repository.GetMovieNameById(id);
                 mov.Rating = repository.GetRatingById(id);
@@ -55,9 +54,9 @@ namespace CoderGirl_MVCMovies.Controllers
         public IActionResult Index()
         {
             PopulateMovieList();
-            Dictionary<Movie, double> movieAverages = new Dictionary<Movie, double>();
+            Dictionary<MovieRating, double> movieAverages = new Dictionary<MovieRating, double>();
             List<string> uniqueMovieNames = new List<string>();
-            foreach (Movie movie in movies)
+            foreach (MovieRating movie in movies) 
             {
                 if (uniqueMovieNames.Contains(movie.Name))
                 {
@@ -75,7 +74,7 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Movies = movies;
+            ViewBag.MovieNames = MovieController.movies.Values.ToList();
             return View("Create");
         }
 
