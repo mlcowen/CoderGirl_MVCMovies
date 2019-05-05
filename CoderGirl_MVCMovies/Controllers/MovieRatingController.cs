@@ -8,10 +8,8 @@ namespace CoderGirl_MVCMovies.Controllers
 {
     public class MovieRatingController : Controller
     {
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        private IMovieRatingRepository repository = RepositoryFactory.GetMovieRatingRepository();
+        public static List<Movie> movies = new List<Movie>();
 
         //Create a string html template for a form
         // with method of post
@@ -31,33 +29,69 @@ namespace CoderGirl_MVCMovies.Controllers
                 <button type='submit'>Submit</button>  
             </form>";
 
+        private void PopulateMovieList()
+        {
+            //repository.SaveRating("The Matrix", 5);
+            //repository.SaveRating("The Matrix", 3);
+            //repository.SaveRating("The Matrix Reloaded", 2);
+            //repository.SaveRating("The Matrix Reloaded", 3);
+            //repository.SaveRating("The Matrix The really bad one", 2);
+            //repository.SaveRating("The Matrix The really bad one", 1);
 
-        // Create an GET Action for Create which returns the above template as Content
+            foreach (int id in repository.GetIds())
+            {
+                Movie mov = new Movie();
+                mov.Id = movies.Count + 1;
+                mov.Name = repository.GetMovieNameById(id);
+                mov.Rating = repository.GetRatingById(id);
+                movies.Add(mov);
+            }
+        }
+
+        /// TODO: Create a view Index. This view should list a table of all saved movie names with associated average rating
+        /// TODO: Be sure to include headers for Movie and Rating
+        /// TODO: Each tr with a movie rating should have an id attribute equal to the id of the movie rating
+        public IActionResult Index()
+        {
+            PopulateMovieList();
+            Dictionary<Movie, double> movieAverages = new Dictionary<Movie, double>();
+            List<string> uniqueMovieNames = new List<string>();
+            foreach (Movie movie in movies)
+            {
+                if (uniqueMovieNames.Contains(movie.Name))
+                {
+                    continue;
+                }
+                uniqueMovieNames.Add(movie.Name);
+                movieAverages.Add(movie, repository.GetAverageRatingByMovieName(movie.Name));
+            }
+            ViewBag.Movies = movieAverages;
+
+            return View("Index");
+        }
+
+
         [HttpGet]
         public IActionResult Create()
         {
-            return Content(htmlForm, "text/html");
+            ViewBag.Movies = movies;
+            return View("Create");
         }
 
-        // Create a POST Action for Create which takes...
-        // two string parameters which match the names of the input and select names in the template
-        // The method should redirect to a the GET Action for Details. Be sure to pass the parameters as route values.
         [HttpPost]
         public IActionResult Create(string movieName, string rating)
         {
+            int id = repository.SaveRating(movieName, int.Parse(rating));
+
             return RedirectToAction(actionName: nameof(Details), routeValues: new { movieName, rating });
         }
-
-        //Create a GET Action for Details
-        // Details should take the parameters passed by the POST Action for Create
-        // Details should return a string as Content. This string should be in the format "{moveName
-        //has a rating of {rating}"
 
         [HttpGet]
         public IActionResult Details(string movieName, string rating)
         {
-            return Content($"{movieName} has a rating of {rating}");
+            ViewBag.movieName = movieName;
+            ViewBag.movieRating = rating;
+            return View("Details");
         }
-
     }
 }

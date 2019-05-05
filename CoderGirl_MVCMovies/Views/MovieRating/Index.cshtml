@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<!-- TODO: Create a view Index. This view should list a table of all saved movie names with associated average rating
+  TODO: Be sure to include headers for Movie and Rating
+  TODO: Each tr with a movie rating should have an id attribute equal to the id of the movie rating
+    -->
+
+<h1>Movies</h1>
+<a asp-controller="MovieRating" asp-action="Create">Add New Movie</a>
+<table>
+    <tr>
+        <th>Movie Name</th>
+        <th>Average Rating</th>
+    </tr>
+    @foreach (var movie in ViewBag.Movies)
+    {
+        <tr id="@movie.Key.Id">
+            <td>@movie.Key.Name</td>
+            <td>@movie.Value</td>
+        </tr>
+    }
+</table>
+

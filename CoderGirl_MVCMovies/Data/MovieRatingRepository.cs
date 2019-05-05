@@ -7,32 +7,32 @@ namespace CoderGirl_MVCMovies.Data
 {
     public class MovieRatingRepository : IMovieRatingRepository
     {
-        public decimal GetAverageRatingByMovieName(string movieName)
+        public double GetAverageRatingByMovieName(string movieName)
         {
-            throw new NotImplementedException();
+            return Movies.Where(m => m.Name == movieName).Average(m => m.Rating);
         }
 
         public List<int> GetIds()
         {
-            /// Returns a list of all the ids of saved movie ratings
-            Movies.W()
-            throw new NotImplementedException();
+            return Movies.Select(m => m.Id).ToList();
         }
 
         public string GetMovieNameById(int id)
         {
             return Movies[id - 1].Name;
-            
+
         }
 
         public int GetRatingById(int id)
         {
             return Movies[id - 1].Rating;
-            
+
         }
 
         public int SaveRating(string movieName, int rating)
         {
+
+
             // Given a movieName and rating, saves the rating and returns a unique id > 0.
             // If the movie name and/or rating are null or empty, nothing should be saved and it should return 0
             if (String.IsNullOrEmpty(movieName) || rating == 0)
@@ -48,6 +48,6 @@ namespace CoderGirl_MVCMovies.Data
         }
 
         public static List<Movie> Movies = new List<Movie>();
-            
+
     }
 }
