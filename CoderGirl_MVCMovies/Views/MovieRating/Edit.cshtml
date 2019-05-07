@@ -9,7 +9,7 @@
 <form asp-action="Edit">
     <select name="movieName" readonly>
         @*@foreach (var movie in Model)
-        {*@
+            {*@
         <option>@Model.Movie</option>
 
     </select>
@@ -20,7 +20,8 @@
         <option>4</option>
         <option>5</option>
     </select>
-    <input type='submit' value="Update Movie Rating" class="btn btn-primary" />
+    @*<input type='submit' value="Update Rating" class="btn btn-primary" />*@
+    <button type='submit'>Update Rating</button>
 </form>
 
 
