@@ -1,0 +1,29 @@
+﻿@model CoderGirl_MVCMovies.Models.MovieRating
+
+@*@model CoderGirl_MVCMovies.Models.Movie*@
+@{
+    ViewData["Title"] = "Rate Movie";
+}
+
+<h1>Edit Movie Rating</h1>
+<form asp-action="Edit">
+    <select name="movieName" readonly>
+        @*@foreach (var movie in Model)
+        {*@
+        <option>@Model.MovieName</option>
+
+    </select>
+    <select name="rating">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+    </select>
+    <input type='submit' value="Update Movie Rating" class="btn btn-primary" />
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to Ratings List</a>
+</div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoderGirl_MVCMovies.Data;
+using CoderGirl_MVCMovies.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoderGirl_MVCMovies.Controllers
@@ -10,31 +11,53 @@ namespace CoderGirl_MVCMovies.Controllers
     public class MovieRatingController : Controller
     {
         private IMovieRatingRepository repository = RepositoryFactory.GetMovieRatingRepository();
+        public static IMovieRespository movieRepository = RepositoryFactory.GetMovieRepository();
 
-       public IActionResult Index()
+        public IActionResult Index()
         {
-            
-            return View();
+            List<MovieRating> movieRatings = repository.GetMovieRatings();
+            return View(movieRatings);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            List<Movie> movies = movieRepository.GetMovies();
+            return View(movies);
         }
 
         [HttpPost]
-        public IActionResult Create(string movieName, string rating)
+        public IActionResult Create(MovieRating movieRating)
         {
-            return RedirectToAction(actionName: nameof(Details), routeValues: new { movieName, rating });
+            repository.Save(movieRating);
+            return RedirectToAction(actionName: nameof(Index));
         }
 
         [HttpGet]
-        public IActionResult Details(string movieName, string rating)
+        public IActionResult Edit(int id)
         {
-            ViewBag.Movie = movieName;
-            ViewBag.Rating = rating;
-            return View();
+            MovieRating movieRating = repository.GetById(id);
+            return View(movieRating);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, MovieRating movieRating)
+        {
+            //since id is not part of the edit form, it isn't included in the model, thus it needs to be set from the route value
+            //there are alternative patterns for doing this - for one, you could include the id in the form but make it hidden
+            //feel free to experiment - the tests wont' care as long as you preserve the id correctly in some manner
+            movieRating.Id = id;
+            repository.Update(movieRating);
+            return RedirectToAction(actionName: nameof(Index));
+        }
+
+
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            repository.Delete(id);
+            return RedirectToAction(actionName: nameof(Index));
         }
     }
 }
