@@ -6,18 +6,18 @@
   TODO: Each tr with a movie rating should have an id attribute equal to the id of the movie rating
     -->
 
-<h1>Movies</h1>
+<h1>Movie Rating</h1>
 <a asp-controller="MovieRating" asp-action="Create">Add New Movie</a>
 <table>
     <tr>
-        <th>Movie Name</th>
-        <th>Average Rating</th>
+        <th>Movie</th>
+        <th>Rating</th>
     </tr>
     @foreach (var movie in ViewBag.Movies)
     {
-        <tr id="@movie.Key.Id">
-            <td>@movie.Key.Name</td>
+        <tr id="@movie.Key">
             <td>@movie.Value</td>
+            <td>@movie.Key</td>
         </tr>
     }
 </table>

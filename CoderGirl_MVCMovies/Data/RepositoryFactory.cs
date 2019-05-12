@@ -9,12 +9,14 @@ namespace CoderGirl_MVCMovies.Data
     {
         private static IMovieRatingRepository movieRatingRepository;
 
+
         public static IMovieRatingRepository GetMovieRatingRepository()
         {
             if (movieRatingRepository == null)
                 movieRatingRepository = new MovieRatingRepository();
             return movieRatingRepository;
         }
+
     }
 }
 
