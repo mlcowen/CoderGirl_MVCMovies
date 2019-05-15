@@ -43,15 +43,22 @@ namespace CoderGirl_MVCMovies.Controllers
             //}
             //else
             //{
-                foreach (var movie in MovieController.movies)
-                {
-                    
-                   
-                    uniqueMovieNames.Add(new MovieRating() { Id = movie.Key, Name = movie.Value.ToString(), Rating = 1 });
-                }
+            //foreach (var movie in MovieController.movies)
+            //{
+
+
+            //    uniqueMovieNames.Add(new MovieRating() { Id = movie.Key, Name = movie.Value.ToString(), Rating = 1 });
+            //}
             //}
 
-            ViewBag.Movies = uniqueMovieNames;
+            List<int> movieRatingID = repository.GetIds();
+            var movieRatingList = movieRatingID.Select(id => repository.GetMovieNameById(id))
+                .Distinct()
+                .Select(name => new KeyValuePair<string, double>(name, repository.GetAverageRatingByMovieName(name))).ToList();
+
+            ViewBag.Movies = movieRatingList;
+
+            //ViewBag.Movies = uniqueMovieNames;
             //ViewBag.Movies = MovieController.movies;
 
             return View("Index");
@@ -78,6 +85,11 @@ namespace CoderGirl_MVCMovies.Controllers
 
 
             ViewBag.Movies = uniqueMovieNames;
+
+
+            //ViewBag.Movies = MovieController.movies.Select(m => m.Value).Distinct();
+
+
             return View("Create");
         }
 
