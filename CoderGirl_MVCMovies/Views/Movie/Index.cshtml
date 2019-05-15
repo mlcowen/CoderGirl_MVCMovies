@@ -25,6 +25,7 @@
         <td>@movie.Year</td>
         @*<td>@movie.</td>*@
 
+        <td><a asp-controller="MovieRating" asp-action="Create" asp-route-id="@movie.Id">Rate</a></td>
         <td><a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">Edit</a></td>
         <td><a asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">Delete</a></td>
     </tr>

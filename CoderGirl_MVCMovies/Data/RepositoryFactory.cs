@@ -9,12 +9,21 @@ namespace CoderGirl_MVCMovies.Data
     {
         private static IMovieRatingRepository movieRatingRepository;
         private static IMovieRespository movieRepository;
+        private static IDirectorRepository directorRepository;
+
 
         public static IMovieRatingRepository GetMovieRatingRepository()
         {
             if (movieRatingRepository == null)
                 movieRatingRepository = new MovieRatingRepository();
             return movieRatingRepository;
+        }
+
+        internal static IDirectorRepository GetDirectorRepository()
+        {
+            if (directorRepository == null)
+                directorRepository = new DirectorRepository();
+            return directorRepository;
         }
 
         public static IMovieRespository GetMovieRepository()
