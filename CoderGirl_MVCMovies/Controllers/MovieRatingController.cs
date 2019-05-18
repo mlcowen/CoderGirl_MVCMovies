@@ -20,7 +20,7 @@ namespace CoderGirl_MVCMovies.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(int movieId)
         {
             //ViewBag.MovieNames = movieRespository.GetMovies().Select(m => m.Name).ToList();
             ViewBag.Movies = movieRespository.GetMovies().ToList();
@@ -32,7 +32,8 @@ namespace CoderGirl_MVCMovies.Controllers
         public IActionResult Create(MovieRating movieRating)
         {
             ratingRepository.Save(movieRating);
-            return RedirectToAction(actionName: nameof(Index));
+            return Redirect("/movie/");  
+                
         }
 
         [HttpGet]
