@@ -213,3 +213,7 @@ namespace Test
         }
     }
 }
+
+
+//http://localhost:59472/MovieRating/Create?movieId=1
+//http://localhost:59471/MovieRating/Create?movieId=1

@@ -7,21 +7,7 @@
 <h1>Rate a Movie</h1>
 <h2> </h2>
 <form method='post'>
-
-    @*@if (@ViewContext.RouteData.Values["id"].ToString() != "")
-    {
-        <input asp-for="@model." readonly class="form-control" />
-
-    }
-    else
-    {*@
-        <select asp-for="MovieName">
-            @foreach (var movie in ViewBag.Movies)
-            {
-                <option value="@movie.Id">@movie.Name</option>
-            }
-        </select>
-    @*}*@
+    <input asp-for="MovieName"value=@ViewBag.Movies.Name  id="Movie" readonly class="form-control" />
     <select asp-for="Rating">
         <option>1</option>
         <option>2</option>
