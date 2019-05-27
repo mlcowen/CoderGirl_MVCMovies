@@ -22,7 +22,7 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Directors = directorRepository.GetDirectors();
+            ViewBag.Directors = directorRepository.GetModels().Cast<Director>().ToList();
             return View();
         }
 
@@ -40,7 +40,7 @@ namespace CoderGirl_MVCMovies.Controllers
 
             if(ModelState.ErrorCount > 0)
             {
-                ViewBag.Directors = directorRepository.GetDirectors();
+                ViewBag.Directors = directorRepository.GetModels().Cast<Director>().ToList();
                 return View(movie);
             }
 
@@ -51,7 +51,7 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Movie movie = movieRepository.GetById(id);
+            IModel movie = movieRepository.GetById(id);
             return View(movie);
         }
 

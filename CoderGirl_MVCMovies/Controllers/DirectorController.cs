@@ -10,12 +10,12 @@ namespace CoderGirl_MVCMovies.Controllers
 {
     public class DirectorController : Controller
     {
-        private IDirectorRepository directorRepository = RepositoryFactory.GetDirectorRepository();
+        static IRepository directorRepository = RepositoryFactory.GetDirectorRepository();
 
         [HttpGet]
         public IActionResult Index()
         {
-            List<Director> directors = directorRepository.GetDirectors();
+            List<Director> directors = directorRepository.GetModels().Cast<Director>().ToList();
             return View(directors);
         }
 
