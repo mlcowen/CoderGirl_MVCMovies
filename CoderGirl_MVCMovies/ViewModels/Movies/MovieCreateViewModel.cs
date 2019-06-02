@@ -23,7 +23,7 @@ namespace CoderGirl_MVCMovies.ViewModels.Movies
         public int DirectorId { get; set; }
         public List<Director> Directors { get; set; }
         public int Year { get; set; }
-
+        
         private MovieCreateViewModel(List<Director> directors)
         {
             this.Directors = directors;
