@@ -4,18 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoderGirl_MVCMovies.Data;
 using CoderGirl_MVCMovies.Models;
+using CoderGirl_MVCMovies.ViewModels.MovieRatings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoderGirl_MVCMovies.Controllers
 {
     public class MovieRatingController : Controller
     {
-        private IRepository ratingRepository = RepositoryFactory.GetMovieRatingRepository();
-        private IRepository movieRespository = RepositoryFactory.GetMovieRepository();
+       private IRepository ratingRepository = RepositoryFactory.GetMovieRatingRepository();
+       private IRepository movieRespository = RepositoryFactory.GetMovieRepository();
 
        public IActionResult Index()
         {
-            List<MovieRating> movieRatings = ratingRepository.GetModels().Cast<MovieRating>().ToList();
+            //List<MovieRating> movieRatings = ratingRepository.GetModels().Cast<MovieRating>().ToList();
+            var movieRatings = MovieRatingListItemViewModel.GetMovieRatingList();
             return View(movieRatings);
         }
 
@@ -31,31 +33,36 @@ namespace CoderGirl_MVCMovies.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(int movieId, MovieRating movieRating)
+        public IActionResult Create(MovieRatingCreateViewModel model)
+        //public IActionResult Create(int movieId, MovieRating movieRating)
         {
-            ratingRepository.Save(movieRating);
+            //ratingRepository.Save(movieRating);
+            model.Persist();
             return RedirectToAction(controllerName: nameof(Movie), actionName: nameof(Index));
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            MovieRating movieRating = (MovieRating)ratingRepository.GetById(id);
-            return View(movieRating);
+            //MovieRating movieRating = (MovieRating)ratingRepository.GetById(id);
+            MovieRatingEditViewModel model = MovieRatingEditViewModel.GetModel(id);
+            //return View(movieRating);
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, MovieRating movieRating)
+        public IActionResult Edit(int id, MovieRatingEditViewModel model)
         {
-            movieRating.Id = id;
-            ratingRepository.Update(movieRating);
+            //movieRating.Id = id;
+            //ratingRepository.Update(movieRating);
+            model.Persist(id);
             return RedirectToAction(actionName: nameof(Index));
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            ratingRepository.Delete(id);
+            RepositoryFactory.GetMovieRatingRepository().Delete(id);
             return RedirectToAction(actionName: nameof(Index));
         }
     }
