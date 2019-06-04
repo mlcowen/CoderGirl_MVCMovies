@@ -17,7 +17,7 @@ namespace CoderGirl_MVCMovies.Controllers
         public IActionResult Index()
         {
             //List<Movie> movies = movieRepository.GetModels().Cast<Movie>().ToList();
-            var movies = MovieListItemViewModel.GetMovieList()
+            var movies = MovieListItemViewModel.GetMovieList();
             return View(movies);
         }
 
