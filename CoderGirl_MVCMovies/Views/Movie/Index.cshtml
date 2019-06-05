@@ -26,13 +26,13 @@
                 <td>@Html.DisplayFor(modelItem => movie.Year)</td>
                 @if (movie.Ratings.Count > 0)
                 {
-                    <td>@Html.DisplayFor(modelItem => movie.Ratings.Average())</td>
+                    <td>@movie.Ratings.Average()</td>
                 }
                 else
                 {
                     <td>none</td>
                 }
-                <td>@Html.DisplayFor(modelItem => movie.Ratings.Count)</td>
+                <td>@movie.Ratings.Count</td>
                 @*<td><a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">Edit</a></td>*@
                 <td>@Html.ActionLink("Edit", "Edit", new { id = movie.Id })</td>
 

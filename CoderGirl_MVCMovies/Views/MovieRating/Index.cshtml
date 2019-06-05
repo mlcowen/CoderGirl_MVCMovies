@@ -11,7 +11,7 @@
     </tr>
     @foreach(var movieRating in Model)
     {
-    <tr>
+    <tr id="@movieRating.Id">
         <td>@Html.DisplayFor(modelItem => movieRating.MovieName)</td>
         <td>
             @Html.DisplayFor(modelItem => movieRating.Rating)
