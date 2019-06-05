@@ -28,12 +28,35 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpPost]
         public IActionResult Create(DirectorCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            if (String.IsNullOrWhiteSpace(model.FirstName))
             {
-                model.Persist();
-                return RedirectToAction(actionName: nameof(Index));
+                ModelState.AddModelError("FirstName", "First Name must be included");
             }
-            return View(model);
+
+            if (String.IsNullOrWhiteSpace(model.LastName))
+            {
+                ModelState.AddModelError("LastName", "Last Name must be included");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.Nationality))
+            {
+                model.Nationality = "unknown";
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return View(model);
+            }
+
+            model.Persist();
+            return RedirectToAction(actionName: nameof(Index));
+
+            //if (ModelState.IsValid)
+            //{
+            //    model.Persist();
+            //    return RedirectToAction(actionName: nameof(Index));
+            //}
+            //return View(model);
         }
 
         [HttpGet]
