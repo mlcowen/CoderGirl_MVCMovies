@@ -17,24 +17,24 @@ namespace CoderGirl_MVCMovies.Controllers
        public IActionResult Index()
         {
             //List<MovieRating> movieRatings = ratingRepository.GetModels().Cast<MovieRating>().ToList();
-            var movieRatings = MovieRatingListItemViewModel.GetMovieRatingList();
-            return View(movieRatings);
+            var movieRating = MovieRatingListItemViewModel.GetMovieRatingList();
+            return View(movieRating);
         }
 
         [HttpGet]
         public IActionResult Create(int movieId)
         {
-            var movie = (Movie)movieRespository.GetById(movieId);
-            string movieName = movie.Name;
-            MovieRating movieRating = new MovieRating();
-            movieRating.MovieId = movieId;
-            movieRating.MovieName = movieName;
-            return View(movieRating);
+            //var movie = (Movie)movieRespository.GetById(movieId);
+            //string movieName = movie.Name;
+            //MovieRating movieRating = new MovieRating();
+            //movieRating.MovieId = movieId;
+            MovieRatingCreateViewModel model = MovieRatingCreateViewModel.GetMovieRatingCreateViewModel(movieId);
+            return View(model);
         }
 
         [HttpPost]
         public IActionResult Create(MovieRatingCreateViewModel model)
-        //public IActionResult Create(int movieId, MovieRating movieRating)
+        //public IActionResult Create(int movieId, MovieRatingCreateViewModel model)
         {
             //ratingRepository.Save(movieRating);
             model.Persist();

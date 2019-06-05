@@ -7,36 +7,39 @@
 <h1>Movies</h1>
 <a asp-controller="Movie" asp-action="Create">Add New Movie</a>
 <table>
+    <thead>
     <tr>
         @*<th>Movie Name</th>*@
-        <th>@Html.DisplayNameFor(model => model.Name)</th>
-        <th>@Html.DisplayNameFor(model => model.DirectorName)</th>
+        <th>Movie Name@*@Html.DisplayNameFor(model => model.Name)*@</th>
+        <th>Director@*@Html.DisplayNameFor(model => model.DirectorName)*@</th>
         <th>@Html.DisplayNameFor(model => model.Year)</th>
         <th>Average Rating</th>
         <th>Number of Ratings</th>
     </tr>
-    @foreach (var movie in Model)
-    {
-    <tr id="@movie.Id">
-        <td>@Html.DisplayFor(modelItem => movie.Name)</td>
-        <td>@Html.DisplayFor(modelItem => movie.DirectorName)</td>
-        <td>@Html.DisplayFor(modelItem => movie.Year)</td>
-        @if (movie.Ratings.Count > 0)
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
         {
-        <td>@Html.DisplayFor(modelItem => movie.Ratings.Average())</td>
-        }
-        else
-        {
-            <td>none</td>
-        }
-            <td>@Html.DisplayFor(modelItem => movie.Ratings.Count)</td>
-        @*<td><a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">Edit</a></td>*@
-        <td>@Html.ActionLink("Edit", "Edit", new { id = movie.Id })</td>
-        @*<td><a asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">Delete</a></td>*@
-        <td>@Html.ActionLink("Rate", "Rate", new { id = movie.Id })</td>
-        @*<td><a asp-controller="MovieRating" asp-action="Create" asp-route-movieId="@movie.Id">Rate</a></td>*@
-        <td>@Html.ActionLink("Delete", "Delete", new { id = movie.Id })</td>
-    </tr>
-    }
+            <tr id="@movie.Id">
+                <td>@Html.DisplayFor(modelItem => movie.Name)</td>
+                <td>@Html.DisplayFor(modelItem => movie.DirectorName)</td>
+                <td>@Html.DisplayFor(modelItem => movie.Year)</td>
+                @if (movie.Ratings.Count > 0)
+                {
+                    <td>@Html.DisplayFor(modelItem => movie.Ratings.Average())</td>
+                }
+                else
+                {
+                    <td>none</td>
+                }
+                <td>@Html.DisplayFor(modelItem => movie.Ratings.Count)</td>
+                @*<td><a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">Edit</a></td>*@
+                <td>@Html.ActionLink("Edit", "Edit", new { id = movie.Id })</td>
+
+                <td><a asp-controller="MovieRating" asp-action="Create" asp-route-movieId="@movie.Id">Rate</a></td>
+                <td>@Html.ActionLink("Delete", "Delete", new { id = movie.Id })</td>
+            </tr>
+            }
+        </tbody>
 </table>
 

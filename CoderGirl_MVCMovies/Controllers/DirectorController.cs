@@ -28,8 +28,12 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpPost]
         public IActionResult Create(DirectorCreateViewModel model)
         {
-            model.Persist();
-            return RedirectToAction(actionName: nameof(Index));
+            if (ModelState.IsValid)
+            {
+                model.Persist();
+                return RedirectToAction(actionName: nameof(Index));
+            }
+            return View(model);
         }
 
         [HttpGet]

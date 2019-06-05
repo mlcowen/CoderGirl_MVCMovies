@@ -23,6 +23,7 @@ namespace CoderGirl_MVCMovies.Data
         {
             return base.GetModels()
                 .Select(movie => SetDirectorName((Movie)movie))
+                .Select(movie => SetMovieRatings(movie))
                 .Select(movie => movie as IModel).ToList();
         }
        

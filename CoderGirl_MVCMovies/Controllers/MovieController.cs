@@ -24,7 +24,8 @@ namespace CoderGirl_MVCMovies.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            MovieCreateViewModel model = MovieCreateViewModel.GetMovieCreateViewModel();
+           // MovieCreateViewModel model = MovieCreateViewModel.GetMovieCreateViewModel();
+            MovieCreateViewModel model = new MovieCreateViewModel();
             return View(model);
         }
 
@@ -35,14 +36,27 @@ namespace CoderGirl_MVCMovies.Controllers
             {
                 ModelState.AddModelError("Name", "Name must be included");
             }
-            if(model.Year < 1888 || model.Year > DateTime.Now.Year)
+            // fix bug with 0 being entered for year
+            if (model.Year.ToString().EndsWith('0') && model.Year.ToString().Length > 4)
+            {
+                var removeZero = model.Year.ToString().Remove(model.Year.ToString().Length - 1);
+                model.Year = Convert.ToInt32(removeZero);
+            }
+            // fix bug with 0 being entered for year
+            if (model.Year.ToString().StartsWith('0') && model.Year.ToString().Length > 4)
+            {
+                var removeZero = model.Year.ToString().Substring(1);
+                model.Year = Convert.ToInt32(removeZero);
+            }
+
+            if (model.Year < 1888 || model.Year > DateTime.Now.Year)
             {
                 ModelState.AddModelError("Year", "Year is not valid");
             }
 
-            if(ModelState.ErrorCount > 0)
+            if (ModelState.ErrorCount > 0)
             {
-                model.Directors = directorRepository.GetModels().Cast<Director>().ToList();
+                //model.Directors = directorRepository.GetModels().Cast<Director>().ToList();
                 return View(model);
             }
 

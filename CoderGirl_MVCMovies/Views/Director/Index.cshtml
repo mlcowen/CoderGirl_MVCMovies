@@ -7,16 +7,18 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a id="add-new-director" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                Name
+                @*@Html.DisplayNameFor(model => model.FullName)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+               Birth Date
+                @*@Html.DisplayNameFor(model => model.BirthDate)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nationality)
